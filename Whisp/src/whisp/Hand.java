@@ -17,23 +17,23 @@ import static whisp.Card.Suit.SPADE;
  *
  * @author Haig
  */
-public class Hand {
+public class Hand implements Comparable<Card>{
     int tot = 0;
-    public Card[] hand = new Card[5];
+    public Card[] hand = new Card[13];
     int numinHand = 0;
     public int[] suits = {0,0,0,0};
     public String[] suitsString = {"Hearts", "Diamonds", "Spades", "Clubs"};
     
     Hand(Card card[])
     {
-        for(int i = 0 ; i < 5; i ++){
+        for(int i = 0 ; i < 13; i ++){
             addCardtoHand(card[i]);
         }
     }
     
     void addCollection(Card card[])
     {
-        for(int i = 0 ; i < 5; i ++){
+        for(int i = 0 ; i < 13; i ++){
             addCardtoHand(card[i]);
         }
     }
@@ -71,7 +71,7 @@ public class Hand {
     }
     public int getSpace()
     {
-        return 5 - numinHand;
+        return 13 - numinHand;
     }
 
     @Override
@@ -147,5 +147,10 @@ public class Hand {
     {
         hand[0] = deck.getCard();
         return hand[0];
+    }
+
+    @Override
+    public int compareTo(Card t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

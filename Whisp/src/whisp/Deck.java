@@ -35,8 +35,8 @@ public class Deck {
         
         public Card[] getHand()
         {
-            Card[] hand = new Card[5];
-            for(int i = 0; i < 5; i ++){
+            Card[] hand = new Card[13];
+            for(int i = 0; i < 13; i ++){
                 hand[i] = deck.remove(0);
             }
             return hand;
