@@ -5,11 +5,13 @@
  */
 package whisp;
 
+import java.util.Iterator;
+
 /**
  *
  * @author Haig
  */
-public class Card implements Comparable<Card>{
+public class Card implements Comparable<Card> {
 
     
     

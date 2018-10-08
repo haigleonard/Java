@@ -58,7 +58,12 @@ public class Deck {
         {
             return deck.size();
         }
-        
+        public Suit getTrump()
+        {
+            Random r = new Random();
+            int rand = r.nextInt(51-0);
+            return deck.get(rand).suit;
+        }
         public Card getCard()
         {
             return deck.remove(0);

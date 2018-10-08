@@ -18,38 +18,19 @@ public class Whisp {
         
         GUIClass window = new GUIClass();
         
-        
-        /*
-        System.out.println("Hand: " +hand.toString());
-        System.out.println("Deck Size:" + deck.getDeckSize());
-        System.out.println("Hand Contains:" + hand.hasSuit(Card.Suit.CLUB));
-        hand.printSuitTot();
-        System.out.println("Hand Contains Ranks:" + hand.getRankTot(Rank.ACE));
-        System.out.println("Hand Contains Ranks:" + hand.hasSuit2(Suit.HEART));
-        System.out.println("Hand Value:" + hand.getTot());
-        */
-        
         EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-
                 try {
                     window.frame.setVisible(true);
                     window.mouse();
-                    
                 } catch (Exception e) {
-
                     e.printStackTrace();
-
                 }
 
             }
 
         });
-
-        
-        
-        
     }
     
 }

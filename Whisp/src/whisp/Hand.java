@@ -5,6 +5,10 @@
  */
 package whisp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
 import whisp.Card.Rank;
 import whisp.Card.Suit;
 import static whisp.Card.Suit.CLUB;
@@ -17,9 +21,11 @@ import static whisp.Card.Suit.SPADE;
  *
  * @author Haig
  */
-public class Hand implements Comparable<Card>{
+public class Hand implements Iterator<Card>{
+    int Score = 0;
+    int current = 0;
     int tot = 0;
-    public Card[] hand = new Card[13];
+    public ArrayList<Card> hand = new ArrayList<Card>();
     int numinHand = 0;
     public int[] suits = {0,0,0,0};
     public String[] suitsString = {"Hearts", "Diamonds", "Spades", "Clubs"};
@@ -29,6 +35,7 @@ public class Hand implements Comparable<Card>{
         for(int i = 0 ; i < 13; i ++){
             addCardtoHand(card[i]);
         }
+        sortHand();
     }
     
     void addCollection(Card card[])
@@ -37,10 +44,12 @@ public class Hand implements Comparable<Card>{
             addCardtoHand(card[i]);
         }
     }
-    
+    int getSize(){
+        return hand.size();
+    }
     void addCardtoHand(Card card) {
-       hand[numinHand] = card;
-       switch(hand[numinHand].suit){
+       hand.add(card);
+       switch(hand.get(numinHand).suit){
            case HEART:
                suits[0]++;
                break;
@@ -61,8 +70,8 @@ public class Hand implements Comparable<Card>{
     {
         tot = 0;
         for(Rank m : Rank.values()) {
-            for(int i = 0; i < 5;i++){
-                if(m.equals(hand[i].rank)){
+            for(int i = 0; i < hand.size();i++){
+                if(m.equals(hand.get(i).rank)){
                     tot += m.getR();
                 }
             }
@@ -76,7 +85,7 @@ public class Hand implements Comparable<Card>{
 
     @Override
     public String toString() {
-        return "Hand{" + "hand=" + hand[0] + " " + hand[1] + " " + hand[2] +" " + hand[3] +" " + hand[4] +'}';
+        return "Hand{" + "hand=" + hand.get(0) + " " + hand.get(0) + " " + hand.get(0) +" " + hand.get(0) +" " + hand.get(0) +'}';
     }
     
     void printSuitTot()
@@ -86,11 +95,11 @@ public class Hand implements Comparable<Card>{
         }
     }
     
-    public int getRankTot(Rank rank)
+    public int getSuitTot(Suit suit)
     {
         int count = 0;
-        for(int i = 0; i < 5; i++){
-            if(hand[i].rank == rank){
+        for(int i = 0; i < hand.size(); i++){
+            if(hand.get(i).suit == suit){
             count++;
             }
         }
@@ -99,7 +108,7 @@ public class Hand implements Comparable<Card>{
     public boolean hasSuit2(Suit suit)
     {
         for(int i = 0; i < 5; i++){
-            if(hand[i].suit == suit){
+            if(hand.get(i).suit == suit){
             return true;
             }
         }
@@ -107,18 +116,18 @@ public class Hand implements Comparable<Card>{
     }
     public Card getCard(int i)
     {
-        return hand[i];
+        return hand.get(i);
     }
     void printHand()
     {
         for(int i = 0; i < 5;i++){
-            System.out.println(hand[i]);
+            System.out.println(hand.get(i));
         }
     }
     public boolean hasSuit(Suit suit)
     {
         for(int i = 0; i < numinHand; i++){
-            if(hand[i].suit == suit){
+            if(hand.get(i).suit == suit){
                 return true;
             }
         }
@@ -127,14 +136,18 @@ public class Hand implements Comparable<Card>{
     
     public boolean remveSingle(Card card)
     {
-        for(int i = 0; i <5; i++)
+        for(int i = 0; i <13; i++)
         {
-            if(card.suit == hand[i].suit && card.rank == hand[i].rank)
+            if(hand.get(i) != null){
+                if(card.suit.equals(hand.get(i).suit) && card.rank.equals(hand.get(i).rank))
             {
-                hand[i] = null;
+                hand.remove(i);
                 numinHand --;
+                sortHand();
                 return true;
             }
+            }
+            
         }
         return false;
     }
@@ -145,12 +158,39 @@ public class Hand implements Comparable<Card>{
     }
     public Card removeSpec(Deck deck)
     {
-        hand[0] = deck.getCard();
-        return hand[0];
+        return hand.get(0);
     }
 
     @Override
-    public int compareTo(Card t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean hasNext() {
+        return (current < hand.size());
+    }
+
+    @Override
+    public Card next() {
+        return hand.get(current++);    
+    }
+    
+    void sortHand()
+    {
+        CompareAscendingRank CP = new CompareAscendingRank();
+        CompareAscendingSuit CS = new CompareAscendingSuit();
+        hand.sort(CP);
+         hand.sort(CS);
+    }
+    
+    public class CompareAscendingRank implements Comparator<Card>
+    {
+        public int compare(Card t, Card t1) {
+           return t.rank.ordinal() - t1.rank.ordinal();
+
+        }
+    }
+    public class CompareAscendingSuit implements Comparator<Card>
+    {
+        public int compare(Card t, Card t1) {
+           return t.suit.ordinal() - t1.suit.ordinal();
+
+        }
     }
 }
